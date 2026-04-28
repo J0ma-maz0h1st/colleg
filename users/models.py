@@ -55,6 +55,9 @@ class Mentor(models.Model):
     experience_years = models.PositiveIntegerField(default=0, verbose_name="Стаж (лет)")
     qualifications = models.TextField(blank=True, verbose_name="Квалификации")
 
+    class Meta:
+        verbose_name = "Ментор"
+        verbose_name_plural = "Менторы"
 class Student(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='student_profile')
     birth_date = models.DateField(verbose_name="Дата рождения", null=True, blank=True)
@@ -63,7 +66,10 @@ class Student(models.Model):
 
     def __str__(self):
         return f"Student: {self.user.email}"
-    
+    class Meta:
+        verbose_name = "Студент"
+        verbose_name_plural = "Студенты"
+
 class Group(models.Model):
     name = models.CharField(max_length=100, verbose_name="Название группы")
     specialty = models.CharField(max_length=100, verbose_name="Специальность")
@@ -77,3 +83,7 @@ class Group(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Группа"
+        verbose_name_plural = "Группы"
