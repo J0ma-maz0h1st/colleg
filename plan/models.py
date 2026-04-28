@@ -1,6 +1,6 @@
 from django.db import models
-from users.models import Groups
-from users.models import Mentors
+from users.models import Group
+from users.models import Mentor
 
 # Create your models here.
 class Subjects(models.Model):
@@ -20,11 +20,9 @@ class Subjects(models.Model):
         EIGHTH = 8, '8 семестр'
 
     subjects_name = models.CharField(max_length=35, verbose_name="Название предмета")
-    time_amount = models.PositiveIntegerField(
-    help_text="Общее количество академических часов",
-    default=72)
-    control_type = models.CharField(max_length=20, choices=ControlType.choices, default=ControlType.EXAM)
-    semestr = models.IntegerField(choices=Semester.choices, default=Semester.FIRST)
+    time_amount = models.PositiveIntegerField(help_text="Общее количество часов", default=72, verbose_name="Часы")
+    control_type = models.CharField(max_length=20, choices=ControlType.choices, default=ControlType.EXAM, verbose_name="Тип контроля")
+    semestr = models.IntegerField(choices=Semester.choices, default=Semester.FIRST, verbose_name="Семестр")
 
 class Schedule(models.Model):
     class LessonType(models.TextChoices):
@@ -40,12 +38,11 @@ class Schedule(models.Model):
         FRIDAY = 5, 'Пятница'
         SATURDAY = 6, 'Суббота'
 
-    group = models.ForeignKey(Groups, on_delete=models.CASCADE)
-    subjects = models.ForeignKey(Subjects, on_delete=models.CASCADE)
-    mentor = models.ForeignKey(Mentors, on_delete=models.CASCADE, null=True)
-    day_of_week = models.CharField(max_length=20, choices=DayOfWeek.choices, default=DayOfWeek.MONDAY)
-    lesson_number = models.PositiveIntegerField()
-    classroom = models.CharField(max_length=10)
-    lesson_type = models.CharField(max_length=15, choices=LessonType.choices, default=LessonType.LECTURE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name="Группа") 
+    subjects = models.ForeignKey(Subjects, on_delete=models.CASCADE, verbose_name="Предмет")
+    mentor = models.ForeignKey(Mentor, on_delete=models.CASCADE, null=True, verbose_name="Преподователь")
+    day_of_week = models.CharField(max_length=20, choices=DayOfWeek.choices, default=DayOfWeek.MONDAY, verbose_name="День недели")
+    lesson_number = models.PositiveIntegerField(verbose_name="Номер пары")
+    classroom = models.CharField(max_length=10, verbose_name="Аудитория")
+    lesson_type = models.CharField(max_length=15, choices=LessonType.choices, default=LessonType.LECTURE, verbose_name="Тип занятия")
     
-

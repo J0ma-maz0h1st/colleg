@@ -1,12 +1,12 @@
 from django.db import models
 from plan.models import Subjects
-from users.models import Mentors, Groups, Student
+from users.models import Mentor, Group, Student
 
 class Exercises(models.Model):
     ex_name = models.CharField(max_length=30, verbose_name='Название задания')
     subject = models.ForeignKey(Subjects, on_delete=models.CASCADE, related_name='exercises', verbose_name='Предмет')
-    mentor = models.ForeignKey(Mentors, on_delete=models.CASCADE, related_name='assigned_exercises', verbose_name='Препод')
-    groups = models.ForeignKey(Groups, on_delete=models.CASCADE, related_name='exercises', verbose_name='Группы')
+    mentor = models.ForeignKey(Mentor, on_delete=models.CASCADE, related_name='assigned_exercises', verbose_name='Препод')
+    groups = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='exercises', verbose_name='Группы')
     appointment_date = models.DateField(auto_now_add=True)
     due_date = models.DateTimeField(help_text='Время сдачи задания')
     description = models.TextField(max_length=635)
