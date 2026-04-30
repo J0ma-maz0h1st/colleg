@@ -1,0 +1,31 @@
+info:
+  name: Register Request
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{BaseURL}}users/register/"
+  body:
+    type: json
+    data: |-
+      {
+        "email": "12@example.com",
+        "first_name": "Ivan",
+        "last_name": "Ivanov",
+        "password": "StrongPassword123",
+        "phone": "+79991234467"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

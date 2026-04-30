@@ -1,0 +1,23 @@
+info:
+  name: "Profile View Request "
+  type: http
+  seq: 7
+
+http:
+  method: GET
+  url: "{{BaseURL}}users/profile/2/"
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc3NTQzNjE0LCJpYXQiOjE3Nzc1NDAwMTQsImp0aSI6ImRjY2FiNjE5Mjc0MzQxNzZiMjQzZWI1MDZiODJhNTI2IiwidXNlcl9pZCI6IjYifQ.GIENcPoisvElegey0VUOa2v4dqO9UABr-y9_m1mV3po
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

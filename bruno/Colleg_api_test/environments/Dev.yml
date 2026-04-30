@@ -1,0 +1,4 @@
+name: Dev
+variables:
+  - name: BaseURL
+    value: http://192.168.123.9/api/

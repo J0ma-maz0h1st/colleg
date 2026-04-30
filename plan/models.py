@@ -45,4 +45,5 @@ class Schedule(models.Model):
     lesson_number = models.PositiveIntegerField(verbose_name="Номер пары")
     classroom = models.CharField(max_length=10, verbose_name="Аудитория")
     lesson_type = models.CharField(max_length=15, choices=LessonType.choices, default=LessonType.LECTURE, verbose_name="Тип занятия")
-    
+
+

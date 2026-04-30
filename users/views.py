@@ -1,27 +1,20 @@
 from rest_framework import generics, permissions
 from .models import User
-from .serializers import RegisterSerializer, StudentProfileUpdateSerializer, ChangePasswordSerializer, ForgotPasswordRequestSerializer, ForgotPasswordConfirmSerializer
+from .serializers import RegisterSerializer, StudentProfileSerializer, ChangePasswordSerializer, ForgotPasswordRequestSerializer, ForgotPasswordConfirmSerializer, MentorProfileSerializer
 from rest_framework import status, permissions
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Student
+from .models import Student, Mentor
+from django.shortcuts import get_object_or_404
+from .permissions import IsOwnerOrAdmin # Импортируем наше правило
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [permissions.AllowAny]
 
-# Дозаполнение профиля студента
-class UpdateMyProfileView(generics.UpdateAPIView):
-    serializer_class = StudentProfileUpdateSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_object(self):
-        # Возвращаем профиль именно того, кто делает запрос
-        return Student.objects.get(user=self.request.user)
-    
 
 class ChangePasswordView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -82,3 +75,46 @@ class ForgotPasswordConfirmView(APIView):
                 return Response({"error": "Неверный или просроченный токен"}, status=status.HTTP_400_BAD_REQUEST)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             return Response({"error": "Ошибка валидации"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserProfileDetailView(generics.RetrieveAPIView):
+    """Просмотр любого профиля (с логикой маскировки)"""
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_serializer_class(self):
+        user_id = self.kwargs.get('pk')
+        user = get_object_or_404(User, pk=user_id)
+        return MentorProfileSerializer if user.role == 'mentor' else StudentProfileSerializer
+
+    def get_object(self):
+        user = get_object_or_404(User, pk=self.kwargs.get('pk'))
+        if user.role == 'mentor':
+            return get_object_or_404(Mentor, user=user)
+        return get_object_or_404(Student, user=user)
+    
+
+
+class ProfileEditView(generics.UpdateAPIView):
+    """
+    Эндпоинт только для частичного редактирования профиля (PATCH).
+    Доступно владельцу или админу.
+    """
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrAdmin]
+    # Ограничиваем методы: убираем PUT, оставляем только PATCH
+    http_method_names = ['patch'] 
+
+    def get_serializer_class(self):
+        # Получаем объект один раз, чтобы определить роль
+        obj = self.get_object()
+        if obj.user.role == 'mentor':
+            return MentorProfileSerializer
+        return StudentProfileSerializer
+
+    def get_object(self):
+        # Ищем пользователя по pk из URL
+        user = get_object_or_404(User, pk=self.kwargs.get('pk'))
+        
+        # Возвращаем соответствующий профиль
+        if user.role == 'mentor':
+            return get_object_or_404(Mentor, user=user)
+        return get_object_or_404(Student, user=user)

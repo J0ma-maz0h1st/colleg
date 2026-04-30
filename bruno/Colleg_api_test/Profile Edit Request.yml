@@ -1,0 +1,35 @@
+info:
+  name: Profile Edit Request
+  type: http
+  seq: 8
+
+http:
+  method: PATCH
+  url: "{{BaseURL}}users/profile/2/edit/"
+  body:
+    type: multipart-form
+    data:
+      - name: study_goal
+        type: text
+        value: hello
+      - name: last_name
+        type: text
+        value: Joma
+      - name: is_portfolio_public
+        type: text
+        value: "true"
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc3NTQyNzY1LCJpYXQiOjE3Nzc1MzkxNjUsImp0aSI6IjRlMzg2ZGIzODI5NjRlNWI4OGY0MTljNjVjMWFlMzg4IiwidXNlcl9pZCI6IjIifQ.ugqM2zkKlhGKQRIMfguQeI8rx4aTXzBSU3kqIeX8x6M
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

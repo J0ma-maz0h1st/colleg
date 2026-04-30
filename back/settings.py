@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist', # Для логаута
     'corsheaders',
+    'phonenumber_field',
 
 
 
@@ -180,3 +181,6 @@ SPECTACULAR_SETTINGS = {
     },
     "COMPONENT_SPLIT_REQUEST": True
 }
+
+PHONENUMBER_DEFAULT_REGION = 'KG'
+PHONENUMBER_DB_FORMAT = 'E164'
