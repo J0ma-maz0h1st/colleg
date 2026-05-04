@@ -84,13 +84,10 @@ class Mentor(models.Model):
 
 class Student(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='student_profile', limit_choices_to={'role': 'student'},)
-    # Личные данные
     study_goal = models.TextField(verbose_name="Цель обучения", help_text="Что хочет освоить?", blank=True, default="Не указано")
     current_education = models.CharField(max_length=255, verbose_name="Место текущего обучения")
-    # Портфолио (публичность по желанию)
     is_portfolio_public = models.BooleanField(default=False, verbose_name="Сделать портфолио публичным")
     portfolio_links = models.JSONField(default=list, blank=True, help_text="Список ссылок на проекты")
-    # Метрики успеваемости
     gpa = models.DecimalField(max_digits=3, decimal_places=2, default=0.0)
     attendance_rate = models.PositiveIntegerField(default=0) # В %
     
@@ -98,17 +95,38 @@ class Student(models.Model):
     # Это поле будет пересчитываться сложным алгоритмом
     potential_points = models.IntegerField(default=0, verbose_name="Очки потенциала")
     
-    # Вспомогательные данные для расчета потенциала
-    avg_attempts_per_task = models.FloatField(default=0.0, verbose_name="Среднее кол-во попыток")
-    speed_factor = models.FloatField(default=1.0, verbose_name="Коэффициент скорости решения")
-    mentor_recommendations_count = models.PositiveIntegerField(default=0)
-    # Контакты (Родители)
+    total_speed_score = models.FloatField(default=0.0, verbose_name="Среднее кол-во попыток")
+    total_attempts = models.PositiveIntegerField(default=0, verbose_name="Коэффициент скорости решения")
+    total_recommendations = models.PositiveIntegerField(default=0)
+    
+    
+    
     parent_contact = models.CharField(max_length=255, blank=True, null=True, verbose_name="Контакт родителя")
     is_parent_contact_approved = models.BooleanField(default=False)
-    # Техническое состояние
     is_frozen = models.BooleanField(default=False)
     internal_admin_notes = models.TextField(blank=True, verbose_name="Заметки для администрации", null=True)
+    
 
+
+    def update_potential_points(self, weights=None):
+        """Расчёт по твоей формуле"""
+        if weights is None:
+            weights = {'w1': 0.4, 'w2': 0.35, 'w3': 0.25}  # настраиваемые
+
+        if self.total_attempts == 0:
+            self.potential_points = 0
+            self.save()
+            return
+
+        S = self.total_speed_score
+        A = max(self.total_attempts, 1)
+        R = self.total_recommendations
+
+        P = (S * weights['w1']) + ((1 / A) * weights['w2']) + (R * weights['w3'])
+        self.potential_points = int(P * 100)  # масштабируем до удобных чисел
+        self.save()
+
+        
     class Meta:
         verbose_name = "Профиль Студента"
         verbose_name_plural = "Профили Студентов"
@@ -126,51 +144,19 @@ class Group(models.Model):
 
     name = models.CharField(max_length=100, verbose_name="Название группы")
     direction = models.CharField(choices=Direction.choices, max_length=100, verbose_name="Направление (напр. Python)")
-    min_skill_level = models.IntegerField(default=1, verbose_name="Мин. уровень знаний (1-5)")
-    max_capacity = models.PositiveIntegerField(default=15, verbose_name="Макс. количество студентов")
-    course = models.IntegerField(verbose_name="Курс", default=1)
+    min_skill_level = models.IntegerField(default=1)
+    max_capacity = models.PositiveIntegerField(default=15)
+    course = models.IntegerField(default=1)
 
+    mentor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
+                               null=True, blank=True,
+                               limit_choices_to={'role': 'mentor'},
+                               related_name='mentored_groups')
 
-    # Связываем напрямую с User, но фильтруем только тех, у кого роль 'mentor'
-    mentor = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        limit_choices_to={'role': 'mentor'},  # Фильтр для админки
-        related_name='mentored_groups',
-        verbose_name="Преподаватель"
-    )
-
-    # Связываем напрямую с User, фильтруем только тех, у кого роль 'student'
-    students = models.ManyToManyField(
-        settings.AUTH_USER_MODEL,
-        limit_choices_to={'role': 'student'}, # Фильтр для админки
-        related_name='learning_groups',
-        blank=True,
-        verbose_name="Студенты"
-    )
-
-    def clean(self):
-        """Валидация на уровне базы данных (защита от неправильного присвоения в коде)"""
-        if self.mentor and self.mentor.role != 'mentor':
-            raise ValidationError({'mentor': "Пользователь должен иметь роль 'mentor'"})
-        
-    def can_add_student(self, student_user):
-        """Проверка: можно ли добавить этого студента?"""
-        student = student_user.student_profile
-        
-        # 1. Проверка на переполненность
-        if self.students.count() >= self.max_capacity:
-            return False, "Группа переполнена"
-            
-        # 2. Проверка соответствия направления (пример логики)
-        if self.direction not in student.study_goal:
-            return False, "Направление группы не совпадает с целями студента"
-            
-        return True, "Доступно"
-    
-
+    students = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                      limit_choices_to={'role': 'student'},
+                                      related_name='learning_groups',
+                                      blank=True)
 
     def __str__(self):
         return self.name

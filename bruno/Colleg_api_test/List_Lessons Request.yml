@@ -1,0 +1,23 @@
+info:
+  name: List_Lessons Request
+  type: http
+  seq: 11
+
+http:
+  method: GET
+  url: "{{BaseURL}}lessons/list/"
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc3ODkxNTc2LCJpYXQiOjE3Nzc4ODc5NzcsImp0aSI6IjFhN2M2ZTJjOGUzNDRkYjQ5M2I1MTg4MDU1MGQxNTY1IiwidXNlcl9pZCI6IjYifQ.KkJXWPX7H5kEWOkSKf0rG5X45pcfO5wk4zpfY-B-zV8
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

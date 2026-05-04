@@ -11,7 +11,7 @@ http:
     data: |-
       {
 
-          "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3NzYxNDYzOCwiaWF0IjoxNzc3NTI4MjM4LCJqdGkiOiIyMDVkOWMwNWU0M2M0MGI1OTU4YjYzNGMxYmQzMGIyOSIsInVzZXJfaWQiOiIyIn0.BdAqvbJ1yWmt9myFZxLACZxmLD4pqK_jK3yimjBtfak"
+          "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3Nzk3NDMyNSwiaWF0IjoxNzc3ODg3OTI1LCJqdGkiOiIyNjQzYTM1YjFiMWE0OGVmOGRkNThhMTlmODIwYWQzNyIsInVzZXJfaWQiOiI2In0.gG7T-hRxcwpyCeW8i-weBFHd2ZWjf9c6urfe5e5rRrk"
 
       }
   auth: inherit
