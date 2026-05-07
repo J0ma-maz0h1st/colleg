@@ -1,6 +1,5 @@
 from rest_framework import generics, permissions
 from .models import User
-from .serializers import RegisterSerializer, StudentProfileSerializer, ChangePasswordSerializer, ForgotPasswordRequestSerializer, ForgotPasswordConfirmSerializer, MentorProfileSerializer
 from rest_framework import status, permissions
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -10,10 +9,11 @@ from rest_framework.response import Response
 from .models import Student, Mentor
 from django.shortcuts import get_object_or_404
 from .permissions import IsOwnerOrAdmin # Импортируем наше правило
+from .serializers import *
 
-class RegisterView(generics.CreateAPIView):
-    serializer_class = RegisterSerializer
-    permission_classes = [permissions.AllowAny]
+# class RegisterView(generics.CreateAPIView):
+#     serializer_class = RegisterSerializer
+#     permission_classes = [permissions.AllowAny]
 
 
 class ChangePasswordView(APIView):
@@ -118,3 +118,13 @@ class ProfileEditView(generics.UpdateAPIView):
         if user.role == 'mentor':
             return get_object_or_404(Mentor, user=user)
         return get_object_or_404(Student, user=user)
+
+class ApplicationCreateView(generics.CreateAPIView):
+    serializer_class = ApplicationCreateSerializer
+    permission_classes = [permissions.AllowAny]
+
+class ApplicationApprovalView(generics.UpdateAPIView):
+    http_method_names = ['patch'] # Ограничиваем методы: убираем PUT, оставляем только PATCH
+    serializer_class = ApplicationApprovalSerializer
+    permission_classes = [permissions.IsAdminUser]
+    queryset = Applications.objects.all()

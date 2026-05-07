@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User, Mentor, Group, Student
+from .models import User, Mentor, Group, Student, Applications
 from django import forms
 
 class UserCreationForm(forms.ModelForm):
@@ -64,3 +64,9 @@ class GroupAdmin(admin.ModelAdmin):
     def student_count(self, obj):
         return obj.students.count()
     student_count.short_description = "Студентов"
+
+@admin.register(Applications)
+class ApplicationsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'first_name', 'last_name', 'status', 'created_at')
+    list_filter = ('status',)
+    search_fields = ('first_name', 'last_name', 'email')

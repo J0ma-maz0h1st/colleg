@@ -44,14 +44,13 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist', # Для логаута
     'corsheaders',
     'phonenumber_field',
+    'drf_spectacular', 
 
 
 
     # приложения
     'users',
-    'lessons',
-    'courses',
-    'drf_spectacular', 
+    'tasks',
 ]
 
 MIDDLEWARE = [

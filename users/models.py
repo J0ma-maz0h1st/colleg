@@ -164,3 +164,24 @@ class Group(models.Model):
     class Meta:
         verbose_name = "Группа"
         verbose_name_plural = "Группы"
+
+
+
+
+class Applications(models.Model):
+    class Status(models.TextChoices):
+        PENDING = 'PENDING', 'В ожидании'
+        ACCEPTED = 'ACCEPTED', 'Принято'
+        REJECTED = 'REJECTED', 'Отклонено'
+
+    status = models.CharField(choices=Status.choices, max_length=20, default=Status.PENDING)
+    email = models.EmailField(unique=True, verbose_name="Email")
+    first_name = models.CharField(max_length=150, verbose_name="Имя")
+    last_name = models.CharField(max_length=150, verbose_name="Фамилия")
+    phone = PhoneNumberField(verbose_name="Телефон", unique=True, region='KG')
+    created_at = models.DateTimeField(auto_now_add=True)
+    password = models.CharField(max_length=128, verbose_name="Пароль")
+
+    class Meta:
+        verbose_name = "Заявка на регистрацию"
+        verbose_name_plural = "Заявки на регистрацию"
