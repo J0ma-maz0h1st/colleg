@@ -8,7 +8,7 @@ http:
   url: "{{BaseURL}}lessons/list/"
   auth:
     type: bearer
-    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc3ODkxNTc2LCJpYXQiOjE3Nzc4ODc5NzcsImp0aSI6IjFhN2M2ZTJjOGUzNDRkYjQ5M2I1MTg4MDU1MGQxNTY1IiwidXNlcl9pZCI6IjYifQ.KkJXWPX7H5kEWOkSKf0rG5X45pcfO5wk4zpfY-B-zV8
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc4MjIyNjkzLCJpYXQiOjE3NzgyMTkwOTMsImp0aSI6ImEyOGRmMThhMDIyYTQyOTZiZmZkOGJlZTg4M2Q0MTZjIiwidXNlcl9pZCI6IjYifQ.ZGrszLWTUazR0jo_pVt7Swp_LwN1nkfsXjzzn__xB98
 
 runtime:
   assertions:
