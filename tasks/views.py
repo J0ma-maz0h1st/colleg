@@ -2,8 +2,11 @@ from django.shortcuts import render
 from .serializers import *
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
-from .models import Tasks, Answers
+from .models import Tasks, Answers, Question, TestResult
 from .permissions import IsMentorOrAdmin
+from rest_framework.views import APIView
+import random
+from django.utils import timezone
 
 
 
@@ -53,3 +56,14 @@ class ListAnswersView(generics.ListAPIView):
     def get_queryset(self):
         task_id = self.kwargs['task_id']
         return Answers.objects.filter(task_id=task_id)
+    
+
+    
+class AddQuestionView(generics.CreateAPIView):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+    permission_classes = [IsMentorOrAdmin]
+
+    def perform_create(self, serializer):
+        serializer.save()
+        

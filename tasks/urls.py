@@ -8,4 +8,9 @@ urlpatterns = [
     path('<int:pk>/submit/', SubmitAnswerView.as_view(), name='submit-answer'),
     path('<int:pk>/approve/', ApproveAnswerView.as_view(), name='approve-answer'),
     path('<int:task_id>/answers/', ListAnswersView.as_view(), name='list-answers'),
+
+
+    # path('quiz/', GetQuizView.as_view(), name='get-quiz'),
+    # path('quiz/submit/', SubmitQuizView.as_view(), name='submit-quiz'),
+    path('question/add/', AddQuestionView.as_view(), name='add-question'),
 ]
