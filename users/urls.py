@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import *
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView 
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView  # type: ignore
 
 urlpatterns = [
     path('change-password/', ChangePasswordView.as_view(), name='change-password'),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('application/<int:pk>/approve/', ApplicationApprovalView.as_view(), name='application-approve'),
     path('profile/<int:pk>/', UserProfileDetailView.as_view()),
     path('profile/<int:pk>/edit/', ProfileEditView.as_view()),
+    # path('', landing_registration, name='index'),
 ]

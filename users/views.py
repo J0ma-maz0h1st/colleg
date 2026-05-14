@@ -128,3 +128,21 @@ class ApplicationApprovalView(generics.UpdateAPIView):
     serializer_class = ApplicationApprovalSerializer
     permission_classes = [permissions.IsAdminUser]
     queryset = Applications.objects.all()
+
+
+
+# from django.shortcuts import render, redirect
+# from django.contrib import messages
+# from .forms import StudentApplicationForm
+
+# def landing_registration(request):
+#     if request.method == 'POST':
+#         form = StudentApplicationForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, 'Ваша заявка успешно отправлена! Мы свяжемся с вами.')
+#             return redirect('registration_success')
+#     else:
+#         form = StudentApplicationForm()
+    
+#     return render(request, 'index.html', {'form': form})

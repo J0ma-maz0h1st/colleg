@@ -42,7 +42,7 @@ class Question(models.Model):
         JS = 'JS', 'JavaScript'
         Algorithms = 'Algorithms', 'Алгоритмы'
         DataStructer = 'DataStructer', 'Структуры данных'
-    text = models.TextField("Текст вопроса")
+    text = models.TextField("Текст вопроса", max_length=1000, unique=True)
     # Храним все варианты в JSON: ["Число", "Строка", "Массив", "Объект"]
     options = models.JSONField("Варианты ответов")
     correct_answer = models.CharField("Правильный ответ", max_length=255)
@@ -60,7 +60,7 @@ class TestResult(models.Model):
     total_questions = models.IntegerField("Всего вопросов")
     start_time = models.DateTimeField()
     end_time = models.DateTimeField(auto_now_add=True)
-    answers = models.JSONField("Ответы пользователя")  # Сохраняем ответы в JSON формате
+    answers = models.JSONField("Ответы пользователя")
     date_taken = models.DateTimeField(auto_now_add=True)
 
     @property
