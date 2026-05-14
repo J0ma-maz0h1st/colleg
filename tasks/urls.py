@@ -10,7 +10,7 @@ urlpatterns = [
     path('<int:task_id>/answers/', ListAnswersView.as_view(), name='list-answers'),
 
 
-    path('question/<str:category>/', QuizSessionView.as_view(), name='quiz-session'),
-    path('test/result/', SubmitTestResultView.as_view(), name='test-result'),
-    path('question/add/', AddQuestionView.as_view(), name='add-question'),
+    # path('question/<str:category>/', QuizSessionView.as_view(), name='quiz-session'),
+    # path('test/result/', SubmitTestResultView.as_view(), name='test-result'),
+    # path('question/add/', AddQuestionView.as_view(), name='add-question'),
 ]

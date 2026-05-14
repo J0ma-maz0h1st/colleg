@@ -51,6 +51,7 @@ class ApplicationApprovalSerializer(serializers.ModelSerializer):
                 user = User.objects.create_user(
                     email=instance.email,
                     first_name=instance.first_name,
+                    role='student',
                     last_name=instance.last_name,
                     phone=instance.phone,
                     password=instance.password

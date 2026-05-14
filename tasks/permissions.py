@@ -8,5 +8,3 @@ class IsMentorOrAdmin(permissions.BasePermission):
         # Разрешаем, если пользователь — админ системы
         if request.user.is_staff:
             return True
-        # Разрешаем, если пользователь — наставник
-        return hasattr(request.user, 'mentor')
