@@ -16,14 +16,28 @@ class TaskListSerializer(serializers.ModelSerializer):
 
 
 class AnswerSerializer(serializers.ModelSerializer):
+    task = serializers.PrimaryKeyRelatedField(queryset=Tasks.objects.all())
+
     class Meta:
         model = Answers
         fields = ['id', 'task', 'content', 'submitted_at', 'is_approved', 'file', 'photo']
+        read_only_fields = ['submitted_at', 'is_approved']
     
+
 class AnswerListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answers
         fields = ['id', 'task', 'content', 'submitted_at', 'is_approved']
+
+
+#сериализаторы для AnswerDetailView которое принимает ID ответа и возвращает его детали, включая информацию о студенте и задаче
+class AnswerDetailSerializer(serializers.ModelSerializer):
+    student = serializers.StringRelatedField(read_only=True)
+    task = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Answers
+        fields = ['id', 'task', 'student', 'content', 'submitted_at', 'is_approved', 'file', 'photo']
 
 # 1. Для добавления вопросов (AddQuestionView)
 

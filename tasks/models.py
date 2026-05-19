@@ -19,7 +19,7 @@ class Tasks(models.Model):
 
 class Answers(models.Model):
     task = models.ForeignKey(Tasks, on_delete=models.CASCADE, related_name='answers', verbose_name="Задача")
-    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='answers', verbose_name="Студент", limit_choices_to={'role': 'student'})
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='answers', verbose_name="Студент", limit_choices_to={'role': 'student'}, null=True, blank=True)
     content = models.TextField(verbose_name="Ответ студента")
     submitted_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата отправки")
     is_approved = models.BooleanField(default=False, verbose_name="Одобрено преподавателем")
@@ -30,6 +30,7 @@ class Answers(models.Model):
     class Meta:
         verbose_name = "Ответ"
         verbose_name_plural = "Ответы"
+        unique_together = ('task', 'student')
 
 
 class Question(models.Model):
