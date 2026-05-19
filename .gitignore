@@ -7,9 +7,6 @@ ENV/
 __pycache__/
 *.pyc
 
-# База данных (если используете SQLite)
-db.sqlite3
-
 # Логи и временные файлы
 *.log
 logs/

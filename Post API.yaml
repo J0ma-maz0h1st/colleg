@@ -1,0 +1,1738 @@
+openapi: 3.0.3
+info:
+  title: Post API
+  version: 0.0.1
+paths:
+  /api/info/about/:
+    get:
+      operationId: info_about_list
+      description: Эндпоинт для управления контентом страницы 'О нас'.
+      tags:
+      - info
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AboutSection'
+          description: ''
+    post:
+      operationId: info_about_create
+      description: Эндпоинт для управления контентом страницы 'О нас'.
+      tags:
+      - info
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AboutSectionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AboutSectionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AboutSectionRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AboutSection'
+          description: ''
+  /api/info/about/{id}/:
+    get:
+      operationId: info_about_retrieve
+      description: Эндпоинт для управления контентом страницы 'О нас'.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Секция 'О нас'.
+        required: true
+      tags:
+      - info
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AboutSection'
+          description: ''
+    put:
+      operationId: info_about_update
+      description: Эндпоинт для управления контентом страницы 'О нас'.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Секция 'О нас'.
+        required: true
+      tags:
+      - info
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AboutSectionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AboutSectionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AboutSectionRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AboutSection'
+          description: ''
+    patch:
+      operationId: info_about_partial_update
+      description: Эндпоинт для управления контентом страницы 'О нас'.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Секция 'О нас'.
+        required: true
+      tags:
+      - info
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAboutSectionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAboutSectionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAboutSectionRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AboutSection'
+          description: ''
+    delete:
+      operationId: info_about_destroy
+      description: Эндпоинт для управления контентом страницы 'О нас'.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Секция 'О нас'.
+        required: true
+      tags:
+      - info
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/info/faq/:
+    get:
+      operationId: info_faq_list
+      description: Эндпоинт для работы с разделом FAQ.
+      tags:
+      - info
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FAQ'
+          description: ''
+    post:
+      operationId: info_faq_create
+      description: Эндпоинт для работы с разделом FAQ.
+      tags:
+      - info
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FAQRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FAQRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FAQRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FAQ'
+          description: ''
+  /api/info/faq/{id}/:
+    get:
+      operationId: info_faq_retrieve
+      description: Эндпоинт для работы с разделом FAQ.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Часто задаваемый вопрос
+          (FAQ).
+        required: true
+      tags:
+      - info
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FAQ'
+          description: ''
+    put:
+      operationId: info_faq_update
+      description: Эндпоинт для работы с разделом FAQ.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Часто задаваемый вопрос
+          (FAQ).
+        required: true
+      tags:
+      - info
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FAQRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FAQRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FAQRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FAQ'
+          description: ''
+    patch:
+      operationId: info_faq_partial_update
+      description: Эндпоинт для работы с разделом FAQ.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Часто задаваемый вопрос
+          (FAQ).
+        required: true
+      tags:
+      - info
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFAQRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFAQRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFAQRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FAQ'
+          description: ''
+    delete:
+      operationId: info_faq_destroy
+      description: Эндпоинт для работы с разделом FAQ.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Часто задаваемый вопрос
+          (FAQ).
+        required: true
+      tags:
+      - info
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/info/news/:
+    get:
+      operationId: info_news_list
+      description: Эндпоинт для работы с новостями.
+      tags:
+      - info
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/News'
+          description: ''
+    post:
+      operationId: info_news_create
+      description: Эндпоинт для работы с новостями.
+      tags:
+      - info
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewsRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NewsRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NewsRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/News'
+          description: ''
+  /api/info/news/{id}/:
+    get:
+      operationId: info_news_retrieve
+      description: Эндпоинт для работы с новостями.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Новость.
+        required: true
+      tags:
+      - info
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/News'
+          description: ''
+    put:
+      operationId: info_news_update
+      description: Эндпоинт для работы с новостями.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Новость.
+        required: true
+      tags:
+      - info
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewsRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NewsRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NewsRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/News'
+          description: ''
+    patch:
+      operationId: info_news_partial_update
+      description: Эндпоинт для работы с новостями.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Новость.
+        required: true
+      tags:
+      - info
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedNewsRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedNewsRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedNewsRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/News'
+          description: ''
+    delete:
+      operationId: info_news_destroy
+      description: Эндпоинт для работы с новостями.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Новость.
+        required: true
+      tags:
+      - info
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/tasks/{id}/:
+    get:
+      operationId: tasks_retrieve
+      description: Детальный просмотр задачи.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - tasks
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tasks'
+          description: ''
+  /api/tasks/{task_id}/answers/:
+    get:
+      operationId: tasks_answers_list
+      description: Список всех ответов на конкретную задачу.
+      parameters:
+      - in: path
+        name: task_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - tasks
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AnswerList'
+          description: ''
+  /api/tasks/answers/{id}/:
+    get:
+      operationId: tasks_answers_retrieve
+      description: Просмотр деталей ответа студента.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - tasks
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnswerDetail'
+          description: ''
+  /api/tasks/answers/{id}/approve/:
+    post:
+      operationId: tasks_answers_approve_create
+      description: Одобрение ответа ментором.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - tasks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnswerDetailRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AnswerDetailRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AnswerDetailRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnswerDetail'
+          description: ''
+  /api/tasks/answers/submit/:
+    post:
+      operationId: tasks_answers_submit_create
+      description: Отправка или обновление ответа (только для Студентов).
+      tags:
+      - tasks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnswerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AnswerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AnswerRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Answer'
+          description: ''
+  /api/tasks/create/:
+    post:
+      operationId: tasks_create_create
+      description: Создание задачи (доступно Менторам и Админам).
+      tags:
+      - tasks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TasksRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TasksRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TasksRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tasks'
+          description: ''
+  /api/tasks/groups/{group_id}/tasks/:
+    get:
+      operationId: tasks_groups_tasks_list
+      description: Получение списка задач для конкретной группы.
+      parameters:
+      - in: path
+        name: group_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - tasks
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskList'
+          description: ''
+  /api/tasks/questions/add/:
+    post:
+      operationId: tasks_questions_add_create
+      description: Добавление вопросов в пул тестов.
+      tags:
+      - tasks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/QuestionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/QuestionRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+          description: ''
+  /api/tasks/quiz/{category}/session/:
+    get:
+      operationId: tasks_quiz_session_retrieve
+      description: Получение 10 случайных вопросов по выбранной категории.
+      parameters:
+      - in: path
+        name: category
+        schema:
+          type: string
+        required: true
+      tags:
+      - tasks
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/tasks/quiz/submit/:
+    post:
+      operationId: tasks_quiz_submit_create
+      description: Прием ответов на тест, автоматическая сверка результатов и сохранение.
+      tags:
+      - tasks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestResultCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TestResultCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TestResultCreateRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestResultCreate'
+          description: ''
+  /api/users/application/{id}/approve/:
+    patch:
+      operationId: users_application_approve_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedApplicationApprovalRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedApplicationApprovalRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedApplicationApprovalRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationApproval'
+          description: ''
+  /api/users/application/create/:
+    post:
+      operationId: users_application_create_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ApplicationCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ApplicationCreateRequest'
+        required: true
+      security:
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationCreate'
+          description: ''
+  /api/users/change-password/:
+    post:
+      operationId: users_change_password_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/users/login/:
+    post:
+      operationId: users_login_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/users/login/refresh/:
+    post:
+      operationId: users_login_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/users/password-reset/:
+    post:
+      operationId: users_password_reset_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForgotPasswordRequest'
+          description: ''
+  /api/users/password-reset-confirm/:
+    post:
+      operationId: users_password_reset_confirm_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordConfirmRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordConfirmRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordConfirmRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForgotPasswordConfirm'
+          description: ''
+  /api/users/profile/{id}/:
+    get:
+      operationId: users_profile_retrieve
+      description: Общий миксин для динамического определения профиля на основе User
+        ID
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/users/profile/{id}/edit/:
+    patch:
+      operationId: users_profile_edit_partial_update
+      description: Общий миксин для динамического определения профиля на основе User
+        ID
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    AboutSection:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Заголовок секции
+          maxLength: 255
+        content:
+          type: string
+          title: Текст
+        image:
+          type: string
+          format: uri
+          nullable: true
+          title: Изображение
+        order:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Порядок вывода
+      required:
+      - content
+      - id
+      - title
+    AboutSectionRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          title: Заголовок секции
+          maxLength: 255
+        content:
+          type: string
+          minLength: 1
+          title: Текст
+        image:
+          type: string
+          format: binary
+          nullable: true
+          title: Изображение
+        order:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Порядок вывода
+      required:
+      - content
+      - title
+    Answer:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        task:
+          type: integer
+        content:
+          type: string
+          title: Ответ студента
+        submitted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата отправки
+        is_approved:
+          type: boolean
+          readOnly: true
+          title: Одобрено преподавателем
+        file:
+          type: string
+          format: uri
+          nullable: true
+          title: Прикрепленный файл
+        photo:
+          type: string
+          format: uri
+          nullable: true
+          title: Прикрепленное фото
+      required:
+      - content
+      - id
+      - is_approved
+      - submitted_at
+      - task
+    AnswerDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        task:
+          type: string
+          readOnly: true
+        student:
+          type: string
+          readOnly: true
+        content:
+          type: string
+          title: Ответ студента
+        submitted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата отправки
+        is_approved:
+          type: boolean
+          title: Одобрено преподавателем
+        file:
+          type: string
+          format: uri
+          nullable: true
+          title: Прикрепленный файл
+        photo:
+          type: string
+          format: uri
+          nullable: true
+          title: Прикрепленное фото
+      required:
+      - content
+      - id
+      - student
+      - submitted_at
+      - task
+    AnswerDetailRequest:
+      type: object
+      properties:
+        content:
+          type: string
+          minLength: 1
+          title: Ответ студента
+        is_approved:
+          type: boolean
+          title: Одобрено преподавателем
+        file:
+          type: string
+          format: binary
+          nullable: true
+          title: Прикрепленный файл
+        photo:
+          type: string
+          format: binary
+          nullable: true
+          title: Прикрепленное фото
+      required:
+      - content
+    AnswerList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        task:
+          type: integer
+          title: Задача
+        student:
+          type: string
+          readOnly: true
+        content:
+          type: string
+          title: Ответ студента
+        submitted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата отправки
+        is_approved:
+          type: boolean
+          title: Одобрено преподавателем
+      required:
+      - content
+      - id
+      - student
+      - submitted_at
+      - task
+    AnswerRequest:
+      type: object
+      properties:
+        task:
+          type: integer
+        content:
+          type: string
+          minLength: 1
+          title: Ответ студента
+        file:
+          type: string
+          format: binary
+          nullable: true
+          title: Прикрепленный файл
+        photo:
+          type: string
+          format: binary
+          nullable: true
+          title: Прикрепленное фото
+      required:
+      - content
+      - task
+    ApplicationApproval:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+      required:
+      - id
+    ApplicationCreate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        first_name:
+          type: string
+          title: Имя
+          maxLength: 150
+        last_name:
+          type: string
+          title: Фамилия
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        phone:
+          type: string
+          title: Телефон
+          maxLength: 128
+      required:
+      - email
+      - first_name
+      - id
+      - last_name
+      - phone
+    ApplicationCreateRequest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          minLength: 1
+          title: Имя
+          maxLength: 150
+        last_name:
+          type: string
+          minLength: 1
+          title: Фамилия
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          minLength: 1
+          maxLength: 254
+        phone:
+          type: string
+          minLength: 1
+          title: Телефон
+          maxLength: 128
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+          title: Пароль
+          maxLength: 128
+      required:
+      - email
+      - first_name
+      - last_name
+      - password
+      - phone
+    CategoryEnum:
+      enum:
+      - OOP
+      - Python
+      - C++
+      - SysProg
+      - WebProg
+      - JS
+      - Algorithms
+      - DataStructer
+      type: string
+      description: |-
+        * `OOP` - ООП
+        * `Python` - Python
+        * `C++` - C++
+        * `SysProg` - Системное программирование
+        * `WebProg` - Web-программирование
+        * `JS` - JavaScript
+        * `Algorithms` - Алгоритмы
+        * `DataStructer` - Структуры данных
+    ChangePasswordRequest:
+      type: object
+      properties:
+        old_password:
+          type: string
+          writeOnly: true
+          minLength: 1
+        new_password:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - new_password
+      - old_password
+    FAQ:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        question:
+          type: string
+          title: Вопрос
+          maxLength: 255
+        answer:
+          type: string
+          title: Ответ
+        order:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Порядок сортировки
+      required:
+      - answer
+      - id
+      - question
+    FAQRequest:
+      type: object
+      properties:
+        question:
+          type: string
+          minLength: 1
+          title: Вопрос
+          maxLength: 255
+        answer:
+          type: string
+          minLength: 1
+          title: Ответ
+        order:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Порядок сортировки
+      required:
+      - answer
+      - question
+    ForgotPasswordConfirm:
+      type: object
+      properties:
+        uid:
+          type: string
+        token:
+          type: string
+      required:
+      - token
+      - uid
+    ForgotPasswordConfirmRequest:
+      type: object
+      properties:
+        uid:
+          type: string
+          minLength: 1
+        token:
+          type: string
+          minLength: 1
+        new_password:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - new_password
+      - token
+      - uid
+    ForgotPasswordRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    ForgotPasswordRequestRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+      required:
+      - email
+    News:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Заголовок
+          maxLength: 255
+        slug:
+          type: string
+          nullable: true
+          title: URL-префикс (slug)
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        content:
+          type: string
+          title: Содержание новости
+        image:
+          type: string
+          format: uri
+          nullable: true
+          title: Изображение
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата публикации
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата обновления
+      required:
+      - content
+      - created_at
+      - id
+      - title
+      - updated_at
+    NewsRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          title: Заголовок
+          maxLength: 255
+        slug:
+          type: string
+          nullable: true
+          title: URL-префикс (slug)
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        content:
+          type: string
+          minLength: 1
+          title: Содержание новости
+        image:
+          type: string
+          format: binary
+          nullable: true
+          title: Изображение
+      required:
+      - content
+      - title
+    PatchedAboutSectionRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          title: Заголовок секции
+          maxLength: 255
+        content:
+          type: string
+          minLength: 1
+          title: Текст
+        image:
+          type: string
+          format: binary
+          nullable: true
+          title: Изображение
+        order:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Порядок вывода
+    PatchedApplicationApprovalRequest:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+    PatchedFAQRequest:
+      type: object
+      properties:
+        question:
+          type: string
+          minLength: 1
+          title: Вопрос
+          maxLength: 255
+        answer:
+          type: string
+          minLength: 1
+          title: Ответ
+        order:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Порядок сортировки
+    PatchedNewsRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          title: Заголовок
+          maxLength: 255
+        slug:
+          type: string
+          nullable: true
+          title: URL-префикс (slug)
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        content:
+          type: string
+          minLength: 1
+          title: Содержание новости
+        image:
+          type: string
+          format: binary
+          nullable: true
+          title: Изображение
+    Question:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        text:
+          type: string
+          title: Текст вопроса
+          maxLength: 1000
+        category:
+          allOf:
+          - $ref: '#/components/schemas/CategoryEnum'
+          title: Категория
+        correct_answer:
+          type: string
+          title: Правильный ответ
+          maxLength: 255
+        options:
+          readOnly: true
+          title: Варианты ответов
+      required:
+      - category
+      - correct_answer
+      - id
+      - options
+      - text
+    QuestionRequest:
+      type: object
+      properties:
+        text:
+          type: string
+          minLength: 1
+          title: Текст вопроса
+          maxLength: 1000
+        category:
+          allOf:
+          - $ref: '#/components/schemas/CategoryEnum'
+          title: Категория
+        correct_answer:
+          type: string
+          minLength: 1
+          title: Правильный ответ
+          maxLength: 255
+        option1:
+          type: string
+          writeOnly: true
+          minLength: 1
+          title: Вариант 1
+        option2:
+          type: string
+          writeOnly: true
+          minLength: 1
+          title: Вариант 2
+        option3:
+          type: string
+          writeOnly: true
+          minLength: 1
+          title: Вариант 3
+        option4:
+          type: string
+          writeOnly: true
+          minLength: 1
+          title: Вариант 4
+      required:
+      - category
+      - correct_answer
+      - option1
+      - option2
+      - option3
+      - option4
+      - text
+    StatusEnum:
+      enum:
+      - PENDING
+      - ACCEPTED
+      - REJECTED
+      type: string
+      description: |-
+        * `PENDING` - В ожидании
+        * `ACCEPTED` - Принято
+        * `REJECTED` - Отклонено
+    TaskList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Название задачи
+          maxLength: 255
+        description:
+          type: string
+          title: Описание задачи
+        group:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата создания
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата обновления
+        deadline:
+          type: string
+          format: date-time
+          nullable: true
+          title: Дедлайн
+      required:
+      - created_at
+      - description
+      - group
+      - id
+      - title
+      - updated_at
+    Tasks:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Название задачи
+          maxLength: 255
+        description:
+          type: string
+          title: Описание задачи
+        group:
+          type: integer
+          title: Группа
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата создания
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата обновления
+        deadline:
+          type: string
+          format: date-time
+          nullable: true
+          title: Дедлайн
+        file:
+          type: string
+          format: uri
+          nullable: true
+          title: Прикрепленный файл
+        photo:
+          type: string
+          format: uri
+          nullable: true
+          title: Прикрепленное фото
+      required:
+      - created_at
+      - description
+      - group
+      - id
+      - title
+      - updated_at
+    TasksRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          title: Название задачи
+          maxLength: 255
+        description:
+          type: string
+          minLength: 1
+          title: Описание задачи
+        group:
+          type: integer
+          title: Группа
+        deadline:
+          type: string
+          format: date-time
+          nullable: true
+          title: Дедлайн
+        file:
+          type: string
+          format: binary
+          nullable: true
+          title: Прикрепленный файл
+        photo:
+          type: string
+          format: binary
+          nullable: true
+          title: Прикрепленное фото
+      required:
+      - description
+      - group
+      - title
+    TestResultCreate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        score:
+          type: integer
+          readOnly: true
+          title: Баллы
+        total_questions:
+          type: integer
+          readOnly: true
+          title: Всего вопросов
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+          readOnly: true
+        answers:
+          title: Ответы пользователя
+      required:
+      - answers
+      - end_time
+      - id
+      - score
+      - start_time
+      - total_questions
+    TestResultCreateRequest:
+      type: object
+      properties:
+        start_time:
+          type: string
+          format: date-time
+        answers:
+          title: Ответы пользователя
+      required:
+      - answers
+      - start_time
+    TokenObtainPair:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - refresh
+    TokenObtainPairRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          writeOnly: true
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - email
+      - password
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+      required:
+      - access
+    TokenRefreshRequest:
+      type: object
+      properties:
+        refresh:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - refresh
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

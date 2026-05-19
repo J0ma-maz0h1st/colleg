@@ -1,17 +1,26 @@
-from django.shortcuts import render
-from .serializers import *
+import random
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
-from .models import Tasks, Answers, Question, TestResult
-from .permissions import IsMentorOrAdmin
 from rest_framework.views import APIView
-import random
-from django.utils import timezone
-from django.shortcuts import get_object_or_404
 
+from .models import Tasks, Answers, Question, TestResult
+from .permissions import IsMentorOrAdmin, IsStudent  # Добавили IsStudent
+from .serializers import (
+    TaskListSerializer,
+    TasksSerializer,
+    AnswerDetailSerializer,
+    AnswerListSerializer,
+    AnswerSerializer,
+    QuestionSerializer,
+    TakeTestSerializer,
+    TestResultCreateSerializer
+)
 
 
 class TaskListView(generics.ListAPIView):
+    """Получение списка задач для конкретной группы."""
     serializer_class = TaskListSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -19,17 +28,23 @@ class TaskListView(generics.ListAPIView):
         group_id = self.kwargs.get('group_id')
         return Tasks.objects.filter(group_id=group_id)
 
+
 class TaskDetailView(generics.RetrieveAPIView):
+    """Детальный просмотр задачи."""
     queryset = Tasks.objects.all()
     serializer_class = TasksSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+
 class TaskCreateView(generics.CreateAPIView):
+    """Создание задачи (доступно Менторам и Админам)."""
     queryset = Tasks.objects.all()
     serializer_class = TasksSerializer
     permission_classes = [IsMentorOrAdmin]
 
+
 class AnswerDetailView(generics.RetrieveAPIView):
+    """Просмотр деталей ответа студента."""
     queryset = Answers.objects.all()
     serializer_class = AnswerDetailSerializer
     permission_classes = [IsMentorOrAdmin]
@@ -38,9 +53,12 @@ class AnswerDetailView(generics.RetrieveAPIView):
         answer_id = self.kwargs.get('pk')
         return get_object_or_404(Answers, id=answer_id)
 
+
 class ApproveAnswerView(generics.GenericAPIView):
+    """Одобрение ответа ментором."""
     queryset = Answers.objects.all()
     permission_classes = [IsMentorOrAdmin]
+    serializer_class = AnswerDetailSerializer
 
     def post(self, request, *args, **kwargs):
         answer = self.get_object()
@@ -53,7 +71,9 @@ class ApproveAnswerView(generics.GenericAPIView):
         
         return Response({"message": "Ответ успешно одобрен"}, status=status.HTTP_200_OK)
     
+
 class ListAnswersView(generics.ListAPIView):
+    """Список всех ответов на конкретную задачу."""
     serializer_class = AnswerListSerializer
     permission_classes = [IsMentorOrAdmin]
 
@@ -61,16 +81,17 @@ class ListAnswersView(generics.ListAPIView):
         task_id = self.kwargs['task_id']
         return Answers.objects.filter(task_id=task_id)
 
+
 class SubmitAnswerView(generics.CreateAPIView):
+    """Отправка или обновление ответа (только для Студентов)."""
     queryset = Answers.objects.all()
     serializer_class = AnswerSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsStudent] # Заменили ручную проверку на пермишен
 
     def post(self, request, *args, **kwargs):
-        if request.user.role != 'student':
-            return Response({"error": "Только студенты могут отправлять ответы"}, status=status.HTTP_403_FORBIDDEN)
         task_id = request.data.get('task')
         existing_answer = Answers.objects.filter(student=request.user, task_id=task_id).first()
+        
         if existing_answer:
             if existing_answer.is_approved:
                 return Response(
@@ -93,48 +114,41 @@ class SubmitAnswerView(generics.CreateAPIView):
             "data": serializer.data
         }, status=status_code)
 
-    
-# class AddQuestionView(generics.CreateAPIView):
-#     queryset = Question.objects.all()
-#     serializer_class = QuestionSerializer
-#     permission_classes = [IsMentorOrAdmin]
 
-#     def perform_create(self, serializer):
-#         serializer.save()
+class AddQuestionView(generics.CreateAPIView):
+    """Добавление вопросов в пул тестов."""
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+    permission_classes = [IsMentorOrAdmin]
+
+
+class QuizSessionView(APIView):
+    """Получение 10 случайных вопросов по выбранной категории."""
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, category):
+        questions_query = Question.objects.filter(category=category)
+        if not questions_query.exists():
+            return Response({"error": "Категория не найдена"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Выбираем до 10 случайных вопросов
+        questions = list(questions_query.order_by('?')[:10])
         
+        # Безопасно перемешиваем варианты ответов (не трогая оригинал в БД)
+        for q in questions:
+            shuffled_options = list(q.options)
+            random.shuffle(shuffled_options)
+            q.options = shuffled_options
 
-# class QuizSessionView(APIView):
-#     permission_classes = [permissions.IsAuthenticated]
-
-#     # GET: Получаем вопросы
-#     def get(self, request, category):
-#         questions_query = Question.objects.filter(category=category)
-#         if not questions_query.exists():
-#             return Response({"error": "Категория не найдена"}, status=404)
-
-#         # Берем 10 случайных
-#         questions = list(questions_query.order_by('?')[:10])
-        
-#         # Перемешиваем варианты ответов в каждом вопросе
-#         for q in questions:
-#             random.shuffle(q.options)
-
-#         serializer = TakeTestSerializer(questions, many=True)
-#         return Response({
-#             "questions": serializer.data,
-#             "start_time": timezone.now()
-#         })
+        serializer = TakeTestSerializer(questions, many=True)
+        return Response({
+            "questions": serializer.data,
+            "start_time": timezone.now()
+        }, status=status.HTTP_200_OK)
 
 
-# class SubmitTestResultView(generics.CreateAPIView):
-#     """
-#     Принимает ответы на тест, сверяет их и сохраняет результат.
-#     """
-#     queryset = TestResult.objects.all()
-#     serializer_class = TestResultCreateSerializer
-#     permission_classes = [permissions.IsAuthenticated]
-
-#     def perform_create(self, serializer):
-#         # При создании возвращаем созданный объект, чтобы сериализатор 
-#         # мог подготовить итоговый ответ (с score, duration и т.д.)
-#         return serializer.save()
+class SubmitTestResultView(generics.CreateAPIView):
+    """Прием ответов на тест, автоматическая сверка результатов и сохранение."""
+    queryset = TestResult.objects.all()
+    serializer_class = TestResultCreateSerializer
+    permission_classes = [permissions.IsAuthenticated]

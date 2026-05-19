@@ -1,0 +1,236 @@
+{% extends "home/base.html" %}
+
+{% block title %}Главная · PL potential{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1><span class="accent-purple">IT</span> &amp; <span class="accent-cyan">Digital</span> Courses</h1>
+    <p>Освойте востребованные цифровые навыки. Оставьте заявку — начните путь в технологиях вместе с нами.</p>
+</section>
+
+<section id="application" class="section">
+    <h2 class="section-title"><span>Заявка на обучение</span></h2>
+    <div class="glass-card">
+        <p class="lead">Заполните форму — мы свяжемся с вами после рассмотрения. Пароль понадобится для входа после одобрения заявки.</p>
+
+        <div id="application-alert" class="alert hidden" role="status"></div>
+
+        <form id="application-form" class="form-grid">
+            <div class="form-field">
+                <label for="first_name">Имя</label>
+                <input type="text" id="first_name" name="first_name" required maxlength="150" class="input-tech" autocomplete="given-name">
+            </div>
+            <div class="form-field">
+                <label for="last_name">Фамилия</label>
+                <input type="text" id="last_name" name="last_name" required maxlength="150" class="input-tech" autocomplete="family-name">
+            </div>
+            <div class="form-field span-2">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required class="input-tech" autocomplete="email">
+            </div>
+            <div class="form-field span-2">
+                <label for="phone">Телефон (+996…)</label>
+                <input type="tel" id="phone" name="phone" required placeholder="+996700123456" class="input-tech" autocomplete="tel">
+            </div>
+            <div class="form-field span-2">
+                <label for="password">Пароль для будущего аккаунта</label>
+                <input type="password" id="password" name="password" required minlength="8" class="input-tech" autocomplete="new-password">
+            </div>
+            <div class="span-2">
+                <button type="submit" id="application-submit" class="btn-gradient">Отправить заявку</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section id="news" class="section">
+    <h2 class="section-title"><span>Новости</span></h2>
+    <p id="news-loading" class="loading-text">Загрузка…</p>
+    <p id="news-error" class="error-text hidden"></p>
+    <div id="news-list" class="news-grid"></div>
+</section>
+
+<section id="about" class="section">
+    <h2 class="section-title"><span>О нас</span></h2>
+    <p id="about-loading" class="loading-text">Загрузка…</p>
+    <p id="about-error" class="error-text hidden"></p>
+    <div id="about-list" class="about-list"></div>
+</section>
+
+<section id="faq" class="section">
+    <h2 class="section-title"><span>FAQ</span></h2>
+    <p id="faq-loading" class="loading-text">Загрузка…</p>
+    <p id="faq-error" class="error-text hidden"></p>
+    <div id="faq-list" class="faq-list"></div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    const origin = window.location.origin;
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function mediaUrl(path) {
+        if (!path) return '';
+        if (path.startsWith('http')) return path;
+        return origin + (path.startsWith('/') ? path : '/' + path);
+    }
+
+    function showAlert(el, type, message) {
+        el.textContent = message;
+        el.classList.remove('hidden', 'alert-success', 'alert-error');
+        el.classList.add(type === 'success' ? 'alert-success' : 'alert-error');
+    }
+
+    function formatDate(iso) {
+        if (!iso) return '';
+        try {
+            return new Date(iso).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+        } catch (e) { return iso; }
+    }
+
+    async function loadNews() {
+        const loading = document.getElementById('news-loading');
+        const err = document.getElementById('news-error');
+        const list = document.getElementById('news-list');
+        try {
+            const r = await fetch(origin + '/api/info/news/');
+            if (!r.ok) throw new Error('Не удалось загрузить новости');
+            const data = await r.json();
+            loading.classList.add('hidden');
+            if (!data.length) {
+                list.innerHTML = '<p class="empty-state">Пока нет опубликованных новостей.</p>';
+                return;
+            }
+            list.innerHTML = data.map(function (n) {
+                const excerpt = escapeHtml((n.content || '').replace(/<[^>]+>/g, '').slice(0, 160));
+                const title = escapeHtml(n.title || '');
+                const img = n.image
+                    ? '<img src="' + escapeHtml(mediaUrl(n.image)) + '" alt="">'
+                    : '<div class="news-placeholder"></div>';
+                return '<article class="news-card">' + img +
+                    '<div class="news-card-body"><h3>' + title + '</h3>' +
+                    '<p class="news-date">' + formatDate(n.created_at) + '</p>' +
+                    '<p class="news-excerpt">' + excerpt + (n.content && n.content.length > 160 ? '…' : '') + '</p>' +
+                    '</div></article>';
+            }).join('');
+        } catch (e) {
+            loading.classList.add('hidden');
+            err.textContent = e.message || 'Ошибка загрузки';
+            err.classList.remove('hidden');
+        }
+    }
+
+    async function loadAbout() {
+        const loading = document.getElementById('about-loading');
+        const err = document.getElementById('about-error');
+        const list = document.getElementById('about-list');
+        try {
+            const r = await fetch(origin + '/api/info/about/');
+            if (!r.ok) throw new Error('Не удалось загрузить раздел «О нас»');
+            const data = await r.json();
+            loading.classList.add('hidden');
+            if (!data.length) {
+                list.innerHTML = '<p class="empty-state">Информация скоро появится.</p>';
+                return;
+            }
+            list.innerHTML = data.map(function (s) {
+                const img = s.image
+                    ? '<img src="' + escapeHtml(mediaUrl(s.image)) + '" alt="">'
+                    : '';
+                const content = escapeHtml(s.content || '').replace(/\n/g, '<br>');
+                return '<article class="about-card"><div class="about-body">' +
+                    '<h3>' + escapeHtml(s.title || '') + '</h3>' +
+                    '<div class="about-content">' + content + '</div></div>' +
+                    (img ? '<div>' + img + '</div>' : '') + '</article>';
+            }).join('');
+        } catch (e) {
+            loading.classList.add('hidden');
+            err.textContent = e.message || 'Ошибка загрузки';
+            err.classList.remove('hidden');
+        }
+    }
+
+    async function loadFaq() {
+        const loading = document.getElementById('faq-loading');
+        const err = document.getElementById('faq-error');
+        const list = document.getElementById('faq-list');
+        try {
+            const r = await fetch(origin + '/api/info/faq/');
+            if (!r.ok) throw new Error('Не удалось загрузить FAQ');
+            const data = await r.json();
+            loading.classList.add('hidden');
+            if (!data.length) {
+                list.innerHTML = '<p class="empty-state" style="padding:1rem">Вопросы пока не добавлены.</p>';
+                return;
+            }
+            const sorted = data.slice().sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
+            list.innerHTML = sorted.map(function (f) {
+                return '<details class="faq-item">' +
+                    '<summary><span>' + escapeHtml(f.question || '') + '</span><span class="faq-chevron">▼</span></summary>' +
+                    '<div class="faq-answer">' + escapeHtml(f.answer || '') + '</div></details>';
+            }).join('');
+        } catch (e) {
+            loading.classList.add('hidden');
+            err.textContent = e.message || 'Ошибка загрузки';
+            err.classList.remove('hidden');
+        }
+    }
+
+    document.getElementById('application-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const alertEl = document.getElementById('application-alert');
+        const btn = document.getElementById('application-submit');
+        const body = {
+            first_name: document.getElementById('first_name').value.trim(),
+            last_name: document.getElementById('last_name').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            phone: document.getElementById('phone').value.trim().replace(/\s/g, ''),
+            password: document.getElementById('password').value
+        };
+        btn.disabled = true;
+        alertEl.classList.add('hidden');
+        try {
+            const r = await fetch(origin + '/api/users/application/create/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            const data = await r.json().catch(function () { return {}; });
+            if (!r.ok) {
+                const parts = [];
+                if (typeof data === 'object' && data) {
+                    Object.keys(data).forEach(function (k) {
+                        const v = data[k];
+                        if (Array.isArray(v)) parts.push(k + ': ' + v.join(', '));
+                        else parts.push(k + ': ' + (typeof v === 'object' ? JSON.stringify(v) : v));
+                    });
+                }
+                throw new Error(parts.length ? parts.join(' ') : 'Не удалось отправить заявку');
+            }
+            showAlert(alertEl, 'success', 'Заявка отправлена. Ожидайте решения по email.');
+            alertEl.classList.remove('hidden');
+            document.getElementById('application-form').reset();
+        } catch (err) {
+            showAlert(alertEl, 'error', err.message || 'Ошибка сети');
+            alertEl.classList.remove('hidden');
+        } finally {
+            btn.disabled = false;
+        }
+    });
+
+    loadNews();
+    loadAbout();
+    loadFaq();
+})();
+</script>
+{% endblock %}
