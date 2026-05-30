@@ -1,0 +1,15 @@
+<h2>Последние новости проекта</h2>
+<div class="news-list">
+    {% for news in news_list %}
+        <article class="news-item">
+            {% if news.image %}
+                <img src="{{ news.image.url }}" alt="{{ news.title }}">
+            {% endif %}
+            <h3>{{ news.title }}</h3>
+            <p>{{ news.content|truncatewords:20 }}</p>
+            <small>Опубликовано: {{ news.created_at|date:"d.m.Y" }}</small>
+        </article>
+    {% empty %}
+        <p>Новостей пока нет.</p>
+    {% endfor %}
+</div>

@@ -1,0 +1,11 @@
+<h2>Часто задаваемые вопросы (FAQ)</h2>
+<div class="faq-accordion">
+    {% for faq in faq_items %}
+        <div class="faq-item">
+            <h4>{{ faq.question }}</h4>
+            <p>{{ faq.answer }}</p>
+        </div>
+    {% empty %}
+        <p>Раздел пуст.</p>
+    {% endfor %}
+</div>

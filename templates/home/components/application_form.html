@@ -1,0 +1,33 @@
+<h2>Подать заявку на обучение</h2>
+<div class="application-form-wrapper">
+    <form action="/api/users/application/create/" method="POST">
+        {% csrf_token %}
+        
+        <div>
+            <label>Имя:</label>
+            <input type="text" name="first_name" required placeholder="Имя">
+        </div>
+        
+        <div>
+            <label>Фамилия:</label>
+            <input type="text" name="last_name" required placeholder="Фамилия">
+        </div>
+
+        <div>
+            <label>Email:</label>
+            <input type="email" name="email" required placeholder="example@domain.com">
+        </div>
+
+        <div>
+            <label>Телефон (Кыргызстан):</label>
+            <input type="tel" name="phone" required placeholder="+996 XXX XX-XX-XX">
+        </div>
+
+        <div>
+            <label>Придумайте пароль:</label>
+            <input type="password" name="password" required placeholder="••••••••">
+        </div>
+
+        <button type="submit">Отправить заявку</button>
+    </form>
+</div>

@@ -1,0 +1,14 @@
+<h2>О платформе Potential</h2>
+<div class="about-sections">
+    {% for section in about_sections %}
+        <div class="about-block">
+            <h3>{{ section.title }}</h3>
+            <p>{{ section.content }}</p>
+            {% if section.image %}
+                <img src="{{ section.image.url }}" alt="{{ section.title }}">
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>Информация о проекте обновляется.</p>
+    {% endfor %}
+</div>

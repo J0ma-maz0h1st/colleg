@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% block content %}
+    {% include 'maincomponents/header.html' %}
+
+    <main class="landing-container">
+        
+        <section id="directions" class="landing-section">
+            {% include 'home/components/directions.html' %}
+        </section>
+
+        <section id="news" class="landing-section">
+            {% include 'home/components/news.html' %}
+        </section>
+
+        <section id="about" class="landing-section">
+            {% include 'home/components/about.html' %}
+        </section>
+
+        <section id="apply" class="landing-section">
+            {% include 'home/components/application_form.html' %}
+        </section>
+
+        <section id="stats" class="landing-section" style="display: none;">
+            <div class="stats-placeholder">Статистика платформы (В разработке)</div>
+        </section>
+
+        <section id="faq" class="landing-section">
+            {% include 'home/components/faq.html' %}
+        </section>
+
+    </main>
+
+    {% include 'maincomponents/footer.html' %}
+{% endblock %}

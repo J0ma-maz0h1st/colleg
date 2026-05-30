@@ -45,3 +45,26 @@ class AboutSectionViewSet(viewsets.ModelViewSet):
         if self.request.method in permissions.SAFE_METHODS:
             return []
         return super().get_authentication_classes()
+
+#статистика с количеством студентов(за все время и текущее), курсов, направлений, менторов, количество компаний с которыми сотрудничаем, количество открытых вакансий, количество закрытых вакансий, количество активных групп, количество завершенных групп.
+
+class StatisticsViewSet(viewsets.ViewSet):
+    """Эндпоинт для получения статистики по платформе."""
+    permission_classes = [permissions.AllowAny]
+
+    def list(self, request):
+        from users.models import Student, Mentor, Group
+        from courses.models import Course, Direction
+        
+        data = {
+            "total_students": Student.objects.count(),
+            "current_students": Student.objects.filter(user__is_active=True).count(),
+            "total_mentors": Mentor.objects.count(),
+            "total_courses": Course.objects.count(),
+            "total_directions": Direction.objects.count(),
+            "active_groups": Group.objects.filter(is_active=True).count(),
+            "completed_groups": Group.objects.filter(is_active=False).count(),
+            # Дополнительно можно добавить компании и вакансии, если есть соответствующие модели
+        }
+        return Response(data)
+

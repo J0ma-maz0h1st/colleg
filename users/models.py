@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from phonenumber_field.modelfields import PhoneNumberField # type: ignore
 from phonenumber_field.widgets import PhoneNumberPrefixWidget # type: ignore
+from courses.models import Direction
 
 # --- МЕНЕДЖЕР ПОЛЬЗОВАТЕЛЕЙ ---
 class UserManager(BaseUserManager):
@@ -53,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Mentor(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='mentor_profile', limit_choices_to={'role': 'mentor'},)
-    
+    main_direction = models.ForeignKey(Direction, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Основное направление")
     # Редактируемые данные (Публичные)
     avatar = models.ImageField(upload_to='mentors/avatars/', null=True, blank=True)
     bio = models.TextField(verbose_name="Биография", blank=True)
@@ -132,18 +133,8 @@ class Student(models.Model):
         verbose_name_plural = "Профили Студентов"
 
 class Group(models.Model):
-    class Direction(models.TextChoices):
-        OOP = 'OOP', 'ООП'
-        Python = 'Python', 'Python'
-        Cpp = 'C++', 'C++'
-        SysProg = 'SysProg', 'Системное программирование'
-        WebProg = 'WebProg', 'Web-программирование'
-        JS = 'JS', 'JavaScript'
-        Algorithms = 'Algorithms', 'Алгоритмы'
-        DataStructer = 'DataStructer', 'Структуры данных'
-
     name = models.CharField(max_length=100, verbose_name="Название группы")
-    direction = models.CharField(choices=Direction.choices, max_length=100, verbose_name="Направление (напр. Python)")
+    direction = models.ForeignKey(Direction, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Направление")
     min_skill_level = models.IntegerField(default=1)
     max_capacity = models.PositiveIntegerField(default=15)
     course = models.IntegerField(default=1)

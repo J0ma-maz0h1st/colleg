@@ -1,0 +1,14 @@
+<h2>Направления обучения</h2>
+<div class="directions-grid">
+    {% for direction in directions %}
+        <div class="direction-card">
+            {% if direction.photo %}
+                <img src="{{ direction.photo.url }}" alt="{{ direction.name }}">
+            {% endif %}
+            <h3>{{ direction.name }}</h3>
+            <p>{{ direction.description }}</p>
+        </div>
+    {% empty %}
+        <p>Направлений пока нет.</p>
+    {% endfor %}
+</div>
