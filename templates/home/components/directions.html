@@ -1,14 +1,13 @@
-<h2>Направления обучения</h2>
-<div class="directions-grid">
-    {% for direction in directions %}
-        <div class="direction-card">
+<h2 class="section-title"><span>Направления обучения</span></h2>
+<div class="form-grid"> {% for direction in directions %}
+        <div class="glass-card">
             {% if direction.photo %}
-                <img src="{{ direction.photo.url }}" alt="{{ direction.name }}">
+                <img src="{{ direction.photo.url }}" alt="{{ direction.name }}" style="width:100%; height:12rem; object-fit:cover; border-radius:0.5rem; margin-bottom:1rem; border:1px solid var(--border-glow);">
             {% endif %}
             <h3>{{ direction.name }}</h3>
-            <p>{{ direction.description }}</p>
+            <p class="lead">{{ direction.description }}</p>
         </div>
     {% empty %}
-        <p>Направлений пока нет.</p>
+        <p class="empty-state">Направлений пока нет.</p>
     {% endfor %}
 </div>

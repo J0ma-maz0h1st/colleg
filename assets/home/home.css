@@ -61,7 +61,7 @@ body {
     background:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M10 60h20M90 60h20M60 10v20M60 90v20' stroke='%2300a3ff' stroke-opacity='0.1' fill='none'/%3E%3Ccircle cx='60' cy='60' r='4' fill='%23a020f0' fill-opacity='0.08'/%3E%3C/svg%3E");
     background-size: 120px 120px;
-    animation: circuitDrift 28s linear infinite;
+    animation: circuitDrift 8s linear infinite;
 }
 
 @keyframes gridPulse {
@@ -432,7 +432,6 @@ body {
     color: var(--text-muted);
     line-height: 1.5;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -578,3 +577,51 @@ body {
 }
 
 .hidden { display: none !important; }
+
+/* Стили для модального окна */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 5, 18, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+}
+
+.modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    margin: 1.25rem;
+    animation: modalGlowOpen 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.75rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.modal-close:hover {
+    color: #f87171;
+}
+
+@keyframes modalGlowOpen {
+    from {
+        transform: scale(0.9) translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}

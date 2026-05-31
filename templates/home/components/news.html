@@ -1,15 +1,19 @@
-<h2>Последние новости проекта</h2>
-<div class="news-list">
+<h2 class="section-title"><span>Последние новости</span></h2>
+<div class="news-grid">
     {% for news in news_list %}
-        <article class="news-item">
+        <div class="news-card">
             {% if news.image %}
                 <img src="{{ news.image.url }}" alt="{{ news.title }}">
+            {% else %}
+                <div class="news-placeholder"></div>
             {% endif %}
-            <h3>{{ news.title }}</h3>
-            <p>{{ news.content|truncatewords:20 }}</p>
-            <small>Опубликовано: {{ news.created_at|date:"d.m.Y" }}</small>
-        </article>
+            <div class="news-card-body">
+                <div class="news-date">{{ news.created_at|date:"d.m.Y" }}</div>
+                <h3>{{ news.title }}</h3>
+                <p class="news-excerpt">{{ news.content }}</p>
+            </div>
+        </div>
     {% empty %}
-        <p>Новостей пока нет.</p>
+        <p class="empty-state">Новостей пока нет.</p>
     {% endfor %}
 </div>

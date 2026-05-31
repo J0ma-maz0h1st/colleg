@@ -1,0 +1,22 @@
+{% load static %}
+<header class="site-header">
+    <div class="header-inner">
+        
+        <a href="{% url 'main' %}" class="brand">
+            <img src="{% static 'home/logo.png' %}" alt="Potential Logo" class="brand-logo">
+            <div class="brand-text">
+                <span class="brand-name">potential</span>
+                <span class="brand-tagline">DASHBOARD</span>
+            </div>
+        </a>
+        
+        <nav class="site-nav">
+            <a href="{% url 'main' %}">Курсы</a>
+            <a href="#tasks-section">Задачи</a>
+            <a href="#quiz-section" class="nav-api">Тестирование</a>
+            <a href="{% url 'profile' %}" style="margin-left: 1rem; font-weight: 600; color: var(--cyan);">Личный кабинет</a>
+            <a href="javascript:void(0);" id="logout-btn" style="color: #f87171; margin-left: 0.5rem;">Выйти</a>
+        </nav>
+        
+    </div>
+</header>

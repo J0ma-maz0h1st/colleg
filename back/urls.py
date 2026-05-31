@@ -1,29 +1,16 @@
-"""
-URL configuration for back project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 from django.conf import settings
 from django.conf.urls.static import static
 
+# Импортируем твои HTML views (предположим, они лежат в back/views.py)
+from .views import landing_view, main_dashboard_view, profile_view 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    # --- API Эндпоинты ---
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='docs'),
     path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
@@ -33,6 +20,18 @@ urlpatterns = [
     path('api/info/', include('info.urls')),
     path('api/courses/', include('courses.urls')),
     
+    # --- HTML Страницы Фронтенда (Django Templates) ---
+    path('', landing_view, name='landing'), # Тот самый Лендинг
+    path('home/', main_dashboard_view, name='main'), # Главная страница (Каталог, задачи)
+    path('profile/', profile_view, name='profile'), # Личный кабинет
+    
+    # Временные заглушки для роутов, которые используются в хедере:
+    path('login/', landing_view, name='login'), # Пока нет страницы логина, перекинет на лендинг
+    path('logout/', landing_view, name='logout'),
+    path('courses/', landing_view, name='courses'),
+    path('tasks/', landing_view, name='tasks'),
+    path('rating/', landing_view, name='rating'),
+    path('profile/materials/', landing_view, name='my_materials'),
 ]
 
 if settings.DEBUG:

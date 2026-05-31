@@ -1,29 +1,32 @@
-{% extends 'base.html' %} {% block content %}
-    {% include 'maincomponents/header.html' %}
+{% extends 'base.html' %}
 
-    <main class="landing-container">
+{% block content %}
+    {% include 'maincomponents/lheaders.html' %}
+
+    <main class="site-main">
         
-        <section id="directions" class="landing-section">
+        <div class="hero">
+            <h1>Платформа <span class="accent-cyan">Potential</span></h1>
+            <p>Дисциплина, интеллект и характер. Развивай хард-скиллы на пределе возможностей.</p>
+        </div>
+
+        <section id="directions" class="section">
             {% include 'home/components/directions.html' %}
         </section>
 
-        <section id="news" class="landing-section">
+        <section id="news" class="section">
             {% include 'home/components/news.html' %}
         </section>
 
-        <section id="about" class="landing-section">
+        <section id="about" class="section">
             {% include 'home/components/about.html' %}
         </section>
 
-        <section id="apply" class="landing-section">
+        <section id="apply" class="section">
             {% include 'home/components/application_form.html' %}
         </section>
 
-        <section id="stats" class="landing-section" style="display: none;">
-            <div class="stats-placeholder">Статистика платформы (В разработке)</div>
-        </section>
-
-        <section id="faq" class="landing-section">
+        <section id="faq" class="section">
             {% include 'home/components/faq.html' %}
         </section>
 

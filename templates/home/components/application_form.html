@@ -1,33 +1,47 @@
-<h2>Подать заявку на обучение</h2>
-<div class="application-form-wrapper">
-    <form action="/api/users/application/create/" method="POST">
+<h2 class="section-title"><span>Подать заявку</span></h2>
+<div id="register-form" class="glass-card">
+    <p class="lead">Пройдите первичную регистрацию. Доступ к личному кабинету откроется после верификации администратором.</p>
+    
+    {% if messages %}
+        <div class="form-alerts">
+            {% for message in messages %}
+                <div class="alert {% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form action="/api/users/application/create/" method="POST" class="form-grid">
         {% csrf_token %}
         
-        <div>
-            <label>Имя:</label>
-            <input type="text" name="first_name" required placeholder="Имя">
+        <div class="form-field">
+            <label>Имя</label>
+            <input type="text" name="first_name" class="input-tech" required placeholder="Нурлан">
         </div>
         
-        <div>
-            <label>Фамилия:</label>
-            <input type="text" name="last_name" required placeholder="Фамилия">
+        <div class="form-field">
+            <label>Фамилия</label>
+            <input type="text" name="last_name" class="input-tech" required placeholder="Алиев">
         </div>
 
-        <div>
-            <label>Email:</label>
-            <input type="email" name="email" required placeholder="example@domain.com">
+        <div class="form-field">
+            <label>Email</label>
+            <input type="email" name="email" class="input-tech" required placeholder="nurlan@potential.kg">
         </div>
 
-        <div>
-            <label>Телефон (Кыргызстан):</label>
-            <input type="tel" name="phone" required placeholder="+996 XXX XX-XX-XX">
+        <div class="form-field">
+            <label>Телефон</label>
+            <input type="tel" name="phone" class="input-tech" required placeholder="+996 555 123 456">
         </div>
 
-        <div>
-            <label>Придумайте пароль:</label>
-            <input type="password" name="password" required placeholder="••••••••">
+        <div class="form-field span-2">
+            <label>Пароль</label>
+            <input type="password" name="password" class="input-tech" required placeholder="••••••••••••">
         </div>
 
-        <button type="submit">Отправить заявку</button>
+        <div class="form-field span-2" style="text-align: center; margin-top: 1rem;">
+            <button type="submit" class="btn-gradient">Отправить данные</button>
+        </div>
     </form>
 </div>

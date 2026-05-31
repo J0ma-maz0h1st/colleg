@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potential — Рабочее пространство</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'home/home.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/dashboard.css' %}">
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <img src="{% static 'home/logo.png' %}" alt="Logo" class="sidebar-logo">
+                <div class="sidebar-brand-text">
+                    <span class="brand-name">potential</span>
+                    <span class="brand-status">WORKSPACE</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="{% url 'main' %}" class="sidebar-link active">
+                    <span class="menu-icon">📚</span> Каталог курсов
+                </a>
+                <a href="#tasks-container" class="sidebar-link">
+                    <span class="menu-icon">📋</span> Мои задачи
+                </a>
+                <a href="#quiz-section" class="sidebar-link">
+                    <span class="menu-icon">⚡</span> Тестирование
+                </a>
+                <a href="{% url 'profile' %}" class="sidebar-link">
+                    <span class="menu-icon">👤</span> Личный кабинет
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="javascript:void(0);" id="logout-btn" class="sidebar-logout">
+                    <span class="menu-icon">🚪</span> Выйти из аккаунта
+                </a>
+            </div>
+        </aside>
+
+        <div class="dashboard-main-container">
+            
+            <header class="dashboard-topbar">
+                <div class="topbar-context">
+                    <span id="current-date-display">Загрузка контекста...</span>
+                </div>
+                <div class="topbar-user">
+                    <span class="user-badge">Студент</span>
+                </div>
+            </header>
+
+            <div class="dashboard-content-layout">
+                <div class="main-content-zone">
+                    {% block dashboard_content %}
+                    {% endblock %}
+                </div>
+
+                <aside class="widgets-zone">
+                    <div class="widget-card preview-card">
+                        <h4 class="widget-title">📅 Предстоящие события</h4>
+                        <p class="widget-empty">У вас нет задач, которые нужно сдать на этой неделе.</p>
+                        <a href="#tasks-container" class="widget-action-link">Посмотреть всё</a>
+                    </div>
+
+                    <div class="widget-card stats-card">
+                        <h4 class="widget-title">📊 Ваша статистика</h4>
+                        <div class="mini-stat-row">
+                            <span>Решено задач:</span>
+                            <strong class="accent-cyan">0/0</strong>
+                        </div>
+                        <div class="mini-stat-row">
+                            <span>Пройдено тестов:</span>
+                            <strong class="accent-purple">0</strong>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="{% static 'dashboard/dashboard.js' %}"></script>
+    <script>
+        // Небольшой скрипт для вывода текущей даты в тулбар
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date-display').textContent = new Date().toLocaleDateString('ru-RU', options);
+    </script>
+</body>
+</html>
