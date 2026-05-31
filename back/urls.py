@@ -23,7 +23,7 @@ urlpatterns = [
     # --- HTML Страницы Фронтенда (Django Templates) ---
     path('', landing_view, name='landing'), # Тот самый Лендинг
     path('home/', main_dashboard_view, name='main'), # Главная страница (Каталог, задачи)
-    path('profile/', profile_view, name='profile'), # Личный кабинет
+    path('profile/<int:pk>/', profile_view, name='profile'), # Личный кабинет
     
     # Временные заглушки для роутов, которые используются в хедере:
     path('login/', landing_view, name='login'), # Пока нет страницы логина, перекинет на лендинг

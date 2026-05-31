@@ -33,7 +33,7 @@
                 <a href="#quiz-section" class="sidebar-link">
                     <span class="menu-icon">⚡</span> Тестирование
                 </a>
-                <a href="{% url 'profile' %}" class="sidebar-link">
+                <a href="#" id="sidebar-profile-link" class="sidebar-link">
                     <span class="menu-icon">👤</span> Личный кабинет
                 </a>
             </nav>
@@ -51,8 +51,24 @@
                 <div class="topbar-context">
                     <span id="current-date-display">Загрузка контекста...</span>
                 </div>
-                <div class="topbar-user">
-                    <span class="user-badge">Студент</span>
+                
+                <div class="topbar-user-container">
+                    <div class="user-profile-trigger" id="user-menu-trigger">
+                        <span class="user-name-fallback" id="topbar-user-name">⚡...</span>
+                        <img src="" alt="Avatar" class="topbar-avatar hidden" id="topbar-user-avatar">
+                    </div>
+                    
+                    <div class="dropdown-menu hidden" id="topbar-dropdown">
+                        <div class="dropdown-header">
+                            <div id="dropdown-full-name" style="font-weight: 600; color: #fff;">Загрузка...</div>
+                            <div id="dropdown-role" style="font-size: 0.75rem; color: var(--cyan); text-transform: uppercase; margin-top: 2px;">Роль</div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item" id="dropdown-profile-link">👤 Мой профиль</a>
+                        <a href="#" class="dropdown-item">⚙️ Настройки</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="javascript:void(0);" id="topbar-logout-btn" class="dropdown-item" style="color: #f87171;">🚪 Выйти</a>
+                    </div>
                 </div>
             </header>
 

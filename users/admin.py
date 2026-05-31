@@ -42,7 +42,7 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'gpa', 'potential_points', 'is_frozen')
+    list_display = ('user', 'gpa', 'potential_points', 'is_frozen', 'avatar')
     list_filter = ('is_frozen', 'is_portfolio_public')
     search_fields = ('user__email', 'user__last_name')
     # Делаем очки потенциала только для чтения в списке, чтобы админ их не "нарисовал" случайно
@@ -50,7 +50,7 @@ class StudentAdmin(admin.ModelAdmin):
 
 @admin.register(Mentor)
 class MentorAdmin(admin.ModelAdmin):
-    list_display = ('user', 'education_place', 'internal_rating', 'is_verified', 'is_frozen')
+    list_display = ('user', 'education_place', 'internal_rating', 'is_verified', 'is_frozen', 'avatar')
     list_filter = ('is_verified', 'is_frozen')
     search_fields = ('user__email', 'user__last_name', 'skills')
 

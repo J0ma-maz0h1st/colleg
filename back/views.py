@@ -33,8 +33,9 @@ def main_dashboard_view(request):
 
 
 # 3. Личный кабинет (Заглушка на будущее)
-def profile_view(request):
+def profile_view(request, pk):
     context = {
         'page_type': 'profile',
+        'profile_id': pk,  # Передаем ID в шаблон
     }
-    return render(request, 'home/profile.html', context)
+    return render(request, 'profile/profile.html', context)

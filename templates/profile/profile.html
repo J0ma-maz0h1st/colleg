@@ -1,0 +1,103 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block dashboard_content %}
+    <div style="margin-bottom: 2rem;">
+        <h2 style="font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: 700; margin: 0; text-transform: uppercase;">
+            💼 Личный кабинет <span class="accent-cyan">Пользователя</span>
+        </h2>
+        <p style="color: #64748b; margin: 0.25rem 0 0; font-size: 0.95rem;">Информация о вашей успеваемости, личные данные и настройки аккаунта.</p>
+    </div>
+
+    <div class="glass-card" style="background: #090d22; border-color: rgba(0, 163, 255, 0.15); padding: 2.5rem; display: flex; gap: 2.5rem; align-items: flex-start; flex-wrap: wrap;">
+        
+        <div style="text-align: center; flex: 0 0 200px;">
+            <div style="width: 200px; height: 200px; border-radius: 50%; background: var(--gradient-soft); border: 2px solid var(--cyan); overflow: hidden; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center;">
+                <img src="" alt="Большой аватар" id="profile-big-avatar" class="hidden" style="width: 100%; height: 100%; object-fit: cover;">
+                <span id="profile-avatar-placeholder" style="font-size: 4rem;">👤</span>
+            </div>
+            <button class="btn-gradient" style="font-size: 0.8rem; padding: 0.4rem 1rem; min-width: 100%; border-radius: 0.25rem;">Обновить фото</button>
+        </div>
+
+        <div style="flex: 1; min-width: 300px;">
+            <div style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                <h1 id="profile-full-name" style="margin: 0; font-size: 2rem; color: #fff;">Загрузка данных...</h1>
+                <span id="profile-role-badge" class="user-badge" style="margin-top: 0.5rem; display: inline-block;">Определяем роль...</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
+                <div>
+                    <label style="display: block; font-size: 0.8rem; color: #64748b; margin-bottom: 0.25rem; text-transform: uppercase;">Электронная почта</label>
+                    <div id="profile-email" style="font-size: 1rem; color: #cbd5e1; font-weight: 500;">-</div>
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.8rem; color: #64748b; margin-bottom: 0.25rem; text-transform: uppercase;">Номер телефона</label>
+                    <div id="profile-phone" style="font-size: 1rem; color: #cbd5e1; font-weight: 500;">-</div>
+                </div>
+                <div id="student-gpa-block" class="hidden">
+                    <label style="display: block; font-size: 0.8rem; color: #64748b; margin-bottom: 0.25rem; text-transform: uppercase;">Текущий балл GPA</label>
+                    <div id="profile-gpa" style="font-size: 1.15rem; color: var(--cyan); font-weight: 700; font-family: 'Rajdhani', sans-serif;">0.00</div>
+                </div>
+                <div id="student-points-block" class="hidden">
+                    <label style="display: block; font-size: 0.8rem; color: #64748b; margin-bottom: 0.25rem; text-transform: uppercase;">Очки Потенциала</label>
+                    <div id="profile-points" style="font-size: 1.15rem; color: var(--purple); font-weight: 700; font-family: 'Rajdhani', sans-serif;">0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const accessToken = localStorage.getItem('jwt_access');
+            const profileId = "{{ profile_id }}";
+
+            try {
+                const response = await fetch(`/api/users/profile/${profileId}/`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Наполняем базовые текстовые поля
+                    document.getElementById('profile-full-name').textContent = `${data.first_name} ${data.last_name}`;
+                    document.getElementById('profile-email').textContent = data.email;
+                    
+                    // Телефон вытащим, если он прилетит (или подвяжем из связанных моделей)
+                    if (data.phone) document.getElementById('profile-phone').textContent = data.phone;
+
+                    // Логика разделения интерфейса Студент / Преподаватель
+                    if (data.gpa !== undefined) {
+                        // Это студент
+                        document.getElementById('profile-role-badge').textContent = 'Студент команды Potential';
+                        document.getElementById('profile-gpa').textContent = data.gpa;
+                        document.getElementById('profile-points').textContent = data.potential_points || 0;
+                        
+                        document.getElementById('student-gpa-block').classList.remove('hidden');
+                        document.getElementById('student-points-block').classList.remove('hidden');
+                    } else {
+                        // Это ментор
+                        document.getElementById('profile-role-badge').textContent = 'Преподаватель / Ментор';
+                        document.getElementById('profile-role-badge').style.borderColor = 'var(--purple)';
+                        document.getElementById('profile-role-badge').style.color = 'var(--purple)';
+                        document.getElementById('profile-role-badge').style.background = 'rgba(160, 32, 240, 0.1)';
+                    }
+
+                    // Отрисовываем большой аватар
+                    if (data.avatar) {
+                        const bigAvatar = document.getElementById('profile-big-avatar');
+                        bigAvatar.src = data.avatar;
+                        bigAvatar.classList.remove('hidden');
+                        document.getElementById('profile-avatar-placeholder').classList.add('hidden');
+                    }
+                }
+            } catch (err) {
+                console.error("Ошибка инициализации ЛК:", err);
+            }
+        });
+    </script>
+{% endblock %}

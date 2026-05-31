@@ -63,8 +63,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 if (response.ok) {
-                    localStorage.setItem('access_token', data.access);
-                    localStorage.setItem('refresh_token', data.refresh);
+                    // Железно синхронизируем ключи с дашбордом!
+                    localStorage.setItem('jwt_access', data.access);
+                    localStorage.setItem('jwt_refresh', data.refresh);
+                    
+                    // На всякий случай чистим старые переменные, чтобы не захламлять память
+                    localStorage.removeItem('access_token');
+                    localStorage.removeItem('refresh_token');
+
+                    // Переходим в рабочую область
                     window.location.href = '/home/';
                 } else {
                     // Логируем в консоль точный ответ бэкенда, если опять будет 400

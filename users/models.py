@@ -85,6 +85,7 @@ class Mentor(models.Model):
 
 class Student(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='student_profile', limit_choices_to={'role': 'student'},)
+    avatar = models.ImageField(upload_to='students/avatars/', null=True, blank=True)
     study_goal = models.TextField(verbose_name="Цель обучения", help_text="Что хочет освоить?", blank=True, default="Не указано")
     current_education = models.CharField(max_length=255, verbose_name="Место текущего обучения")
     is_portfolio_public = models.BooleanField(default=False, verbose_name="Сделать портфолио публичным")

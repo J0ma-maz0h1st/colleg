@@ -239,3 +239,85 @@ html {
     margin-bottom: 1rem;
     min-height: 3.8rem;             /* Фиксируем высоту блока, чтобы кнопки были на одной линии */
 }
+
+/* --- СТИЛИ АВАТАРКИ И DROPDOWN (В СТИЛЕ GITHUB) --- */
+.topbar-user-container {
+    position: relative;
+    cursor: pointer;
+}
+
+.user-profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.25rem;
+    border-radius: 50px;
+    transition: background 0.2s;
+}
+
+.user-profile-trigger:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.topbar-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(0, 163, 255, 0.3);
+}
+
+.user-name-fallback {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #cbd5e1;
+}
+
+/* Выпадающее меню */
+.dropdown-menu {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    width: 200px;
+    background: rgba(9, 13, 34, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 163, 255, 0.15);
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0;
+}
+
+.dropdown-header {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.05);
+    margin: 0.5rem 0;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+}
+
+.dropdown-item:hover {
+    background: rgba(0, 163, 255, 0.08);
+    color: #fff;
+}
+
+/* Утилитный класс */
+.hidden {
+    display: none !important;
+}
